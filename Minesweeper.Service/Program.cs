@@ -1,25 +1,45 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.ServiceProcess;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ServiceProcess;
+using System.Threading;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Minesweeper.Server;
+using Minesweeper.Server.Configuration;
+using Minesweeper.Server.Interfaces;
 
 namespace Minesweeper.Service
 {
     static class Program
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
         static void Main()
         {
-            ServiceBase[] ServicesToRun;
-            ServicesToRun = new ServiceBase[]
-            {
+            var builder = Host.CreateDefaultBuilder()
+                .ConfigureAppConfiguration((hostContext, config) =>
+                {
+                    config.AddJsonFile("appsettings.json", optional: true);
+                    config.AddEnvironmentVariables();
+                })
+                .ConfigureServices((hostContext, services) =>
+                {
+                    services.Configure<ServerConfiguration>(hostContext.Configuration.GetSection("ServerSettings"));
+                    services.AddScoped<IMessageHandler, MessageHandler>();
+                    services.AddScoped<IServer, TcpServer>();
+                    services.AddScoped<MinesweeperServerService>();
+                    services.AddSingleton(new CancellationTokenSource());
+                })
+                .ConfigureLogging((hostContext, logging) =>
+                {
+                    logging.ClearProviders();
+                    logging.AddEventLog(eventLogSettings =>
+                    {
+                        eventLogSettings.LogName = "Minesweeper Server Logs";
+                        eventLogSettings.SourceName = "Minesweeper.Service";
+                    });
+                })
+                .Build();
 
-            };
-            ServiceBase.Run(ServicesToRun);
+            ServiceBase.Run(builder.Services.GetRequiredService<MinesweeperServerService>());
         }
     }
 }
