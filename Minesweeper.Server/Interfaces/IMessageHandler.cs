@@ -1,9 +1,9 @@
-﻿using Minesweeper.Common.Messages;
+﻿using Minesweeper.Common.Requests;
 
 namespace Minesweeper.Server.Interfaces
 {
     public interface IMessageHandler
     {
-        public Message GetResponse(Message message);
+        public object GetResponse(Request request);
     }
 }

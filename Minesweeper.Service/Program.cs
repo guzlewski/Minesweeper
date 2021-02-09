@@ -1,11 +1,15 @@
-﻿using System.ServiceProcess;
+﻿using System;
+using System.IO;
+using System.ServiceProcess;
 using System.Threading;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.EventLog;
 using Minesweeper.Server;
 using Minesweeper.Server.Configuration;
+using Minesweeper.Server.Implementations;
 using Minesweeper.Server.Interfaces;
 
 namespace Minesweeper.Service
@@ -14,32 +18,29 @@ namespace Minesweeper.Service
     {
         static void Main()
         {
-            var builder = Host.CreateDefaultBuilder()
+            var host = Host.CreateDefaultBuilder()
                 .ConfigureAppConfiguration((hostContext, config) =>
                 {
-                    config.AddJsonFile("appsettings.json", optional: true);
+                    config.AddJsonFile(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "Minesweeper", "Service", "appsettings.json"), optional: false);
                     config.AddEnvironmentVariables();
                 })
                 .ConfigureServices((hostContext, services) =>
                 {
-                    services.Configure<ServerConfiguration>(hostContext.Configuration.GetSection("ServerSettings"));
+                    services.Configure<TcpServerSettings>(hostContext.Configuration.GetSection("TcpServer"));
                     services.AddScoped<IMessageHandler, MessageHandler>();
                     services.AddScoped<IServer, TcpServer>();
-                    services.AddScoped<MinesweeperServerService>();
+                    services.AddScoped<MinesweeperService>();
                     services.AddSingleton(new CancellationTokenSource());
                 })
                 .ConfigureLogging((hostContext, logging) =>
                 {
                     logging.ClearProviders();
-                    logging.AddEventLog(eventLogSettings =>
-                    {
-                        eventLogSettings.LogName = "Minesweeper Server Logs";
-                        eventLogSettings.SourceName = "Minesweeper.Service";
-                    });
+                    logging.AddConfiguration(hostContext.Configuration.GetSection("Logging"));
+                    logging.AddEventLog(hostContext.Configuration.GetSection("Logging:EventLog").Get<EventLogSettings>());
                 })
                 .Build();
 
-            ServiceBase.Run(builder.Services.GetRequiredService<MinesweeperServerService>());
+            ServiceBase.Run(host.Services.GetRequiredService<MinesweeperService>());
         }
     }
 }

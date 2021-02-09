@@ -1,7 +1,7 @@
 ﻿
 namespace Minesweeper.Service
 {
-    partial class MinesweeperServerService
+    partial class MinesweeperService
     {
         /// <summary> 
         /// Required designer variable.
@@ -30,7 +30,7 @@ namespace Minesweeper.Service
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            this.ServiceName = "MinesweeperServerService";
+            this.ServiceName = "MinesweeperService";
         }
 
         #endregion
