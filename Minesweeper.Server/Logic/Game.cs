@@ -44,7 +44,7 @@ namespace Minesweeper.Server.Logic
             }
         }
 
-        public void Play(int row, int column, FieldAction action)
+        public virtual void Play(int row, int column, FieldAction action)
         {
             if (GameState == GameState.Lost || GameState == GameState.Won ||
                 row < 0 || row >= Gamemode.Height ||

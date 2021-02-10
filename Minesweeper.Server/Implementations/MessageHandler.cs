@@ -4,6 +4,7 @@ using AutoMapper;
 using Microsoft.Extensions.Options;
 using Minesweeper.Common.DTO;
 using Minesweeper.Common.Requests;
+using Minesweeper.Server.Data;
 using Minesweeper.Server.Interfaces;
 using Minesweeper.Server.Logic;
 
@@ -14,14 +15,17 @@ namespace Minesweeper.Server.Implementations
         private readonly Random _random;
         private readonly IMapper _mapper;
         private readonly List<Gamemode> _gamemodes;
+        private readonly DatabaseService _database;
+        private string _nickname;
 
-        public Game Game { get; set; }
+        public SaveableGame Game { get; set; }
 
-        public MessageHandler(Random random, IMapper mapper, IOptionsSnapshot<List<Gamemode>> gamemodes)
+        public MessageHandler(Random random, IMapper mapper, IOptionsSnapshot<List<Gamemode>> gamemodes, DatabaseService database)
         {
             _random = random;
             _mapper = mapper;
             _gamemodes = gamemodes.Value;
+            _database = database;
         }
 
         public object GetResponse(Request request)
@@ -38,24 +42,35 @@ namespace Minesweeper.Server.Implementations
 
         private GameDto CreateGame(CreateGame request)
         {
+            if (_nickname == null)
+            {
+                throw new InvalidOperationException();
+            }
+
             var gamemode = _mapper.Map<Gamemode>(request.Gamemode);
-            Game = new Game(_random, gamemode);
+            Game = new SaveableGame(_random, gamemode, _database, _nickname);
 
             return _mapper.Map<GameDto>(Game);
         }
 
-        private object GetRanking(GetRanking request)
+        private object GetRanking(GetRanking _)
         {
-            throw new NotImplementedException();
+            return _database.GetRanking(_gamemodes, 20);
         }
 
         private object Handshake(Handshake request)
         {
+            _nickname = request.Nickname;
             return _mapper.Map<IEnumerable<GamemodeDto>>(_gamemodes);
         }
 
         private GameDto PlayGame(PlayGame request)
         {
+            if (Game == null)
+            {
+                throw new InvalidOperationException();
+            }
+
             Game.Play(request.Row, request.Column, request.Action);
             return _mapper.Map<GameDto>(Game);
         }

@@ -8,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Minesweeper.Server;
 using Minesweeper.Server.Configuration;
+using Minesweeper.Server.Data;
 using Minesweeper.Server.Implementations;
 using Minesweeper.Server.Interfaces;
 using Minesweeper.Server.Logic;
@@ -29,12 +30,14 @@ namespace Minesweeper.Portable
                 {
                     services.Configure<TcpServerSettings>(hostContext.Configuration.GetSection("TcpServer"));
                     services.Configure<List<Gamemode>>(hostContext.Configuration.GetSection("Gamemodes"));
+                    services.Configure<LiteDBSettings>(hostContext.Configuration.GetSection("LiteDB"));
                     services.AddScoped<IMessageHandler, MessageHandler>();
                     services.AddScoped<IServer, TcpServer>();
                     services.AddSingleton(new CancellationTokenSource());
                     services.AddSingleton(AutoMapperConfig.Initialize());
                     services.AddSingleton<Random, ThreadSafeRandom>();
-                    services.AddHostedService<ServerService>();
+                    services.AddSingleton<DatabaseService>();
+                    services.AddHostedService<ServerService>();                    
                 })
                 .ConfigureLogging((hostContext, logging) =>
                 {

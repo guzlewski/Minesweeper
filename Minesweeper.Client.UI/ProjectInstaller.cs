@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Security.AccessControl;
 using System.Security.Principal;
 
-namespace Minesweeper.Service
+namespace Minesweeper.Client.UI
 {
     [RunInstaller(true)]
     public partial class ProjectInstaller : System.Configuration.Install.Installer
@@ -18,8 +19,8 @@ namespace Minesweeper.Service
         {
             base.OnAfterInstall(savedState);
 
-            AddWritePermissions(Path.Combine(Context.Parameters["TargetDir"], "appsettings-service.json"));
-            AddWritePermissions(Path.Combine(Context.Parameters["TargetDir"], "Minesweeper.db"));
+            var path = Path.Combine(Context.Parameters["TargetDir"], "appsettings-client.json");
+            AddWritePermissions(path);
         }
 
         private void AddWritePermissions(string pathToFile)

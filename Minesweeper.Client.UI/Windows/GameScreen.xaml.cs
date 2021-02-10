@@ -46,9 +46,9 @@ namespace Minesweeper.Client.UI.Windows
             TimeTextBlock.Text = 0.ToString();
             RestartButton.Source = _assets.GameStates[Game.GameState];
 
-            AddFields();
-            UpdateWindow(Game);
+            AddFields();           
             UpdateFields(Game.Board.Fields.ToList());
+            UpdateWindow(Game);
         }
 
         private void AddFields()
@@ -205,9 +205,9 @@ namespace Minesweeper.Client.UI.Windows
                 Close();
                 return;
             }
-
-            UpdateWindow(response);
+            
             UpdateFields(response.Board.Fields);
+            UpdateWindow(response);
         }
 
         private void Field_Enter(object sender, MouseEventArgs e)

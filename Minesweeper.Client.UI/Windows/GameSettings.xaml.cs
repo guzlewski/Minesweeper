@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -86,7 +87,8 @@ namespace Minesweeper.Client.UI.Windows
                 {
                     Width = (int)WidthSlider.Value,
                     Height = (int)HeightSlider.Value,
-                    Bombs = (int)BombsSlider.Value
+                    Bombs = (int)BombsSlider.Value,
+                    Name = ((GamemodeDto)LevelsList.SelectedItem).Name
                 }
             };
 
@@ -114,21 +116,16 @@ namespace Minesweeper.Client.UI.Windows
 
         private async void RankingButton_Click(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            var response = await _communication.SendAndRecieveAsync<List<RankingDto>>(new GetRanking());
 
-            //var request = new GetRankingRequest();
-            //var response = await tcpHelper.TryCommunicateAsync<GetRankingResponse>(request);
+            if (response == null)
+            {
+                _provider.GetRequiredService<ServerSettings>().Show();
+                Close();
+                return;
+            }
 
-            //if (response == null)
-            //{
-            //    var serverSettings = new ServerSettings(tcpHelper);
-            //    serverSettings.Show();
-            //    Close();
-            //    return;
-            //}
-
-            //var rankingWindow = new Ranking(this, response);
-            //rankingWindow.ShowDialog();
+            new Ranking(this, response).ShowDialog();
         }
 
         private void DisconnectButton_Click(object sender, RoutedEventArgs e)

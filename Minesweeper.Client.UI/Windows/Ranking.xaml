@@ -1,0 +1,36 @@
+﻿<Window x:Class="Minesweeper.Client.UI.Windows.Ranking"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Minesweeper.Client.UI.Windows"
+        mc:Ignorable="d"
+        SizeToContent="WidthAndHeight"
+        Title="Ranking" Height="Auto" Width="Auto" ResizeMode="CanMinimize" WindowStartupLocation="CenterOwner">
+    <StackPanel Margin="5">
+        <ListBox Name="Gamemodes" SelectionChanged="Gamemodes_SelectionChanged">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Name}"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <ListView Name="RankingListView">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn DisplayMemberBinding="{Binding Time}" Header="Time"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Player}" Header="Nickname"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Date}" Header="Date"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" Content="Total Games:"/>
+            <Label Grid.Column="1" x:Name="Total" HorizontalContentAlignment="Right"/>
+        </Grid>
+    </StackPanel>
+</Window>
