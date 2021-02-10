@@ -1,5 +1,4 @@
 ﻿using System.ServiceProcess;
-using Microsoft.Extensions.Logging;
 using Minesweeper.Server.Interfaces;
 
 namespace Minesweeper.Service
@@ -11,7 +10,7 @@ namespace Minesweeper.Service
         public MinesweeperService(IServer server)
         {
             _server = server;
-            InitializeComponent();  
+            InitializeComponent();
         }
 
         protected override void OnStart(string[] args)
