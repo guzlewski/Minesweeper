@@ -20,6 +20,6 @@ namespace Minesweeper.Common.DTO
         public int Bombs { get; set; }
 
         [Key(3)]
-        public ICollection<FieldDto> Fields { get; set; }
+        public List<FieldDto> Fields { get; set; }
     }
 }

@@ -1,0 +1,26 @@
+﻿<Window x:Class="Minesweeper.Client.UI.Windows.ServerSettings"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Minesweeper.Client.UI.Windows"
+        mc:Ignorable="d"
+        SizeToContent="Height"
+        Title="ServerSettings" Height="auto" Width="200" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+    <StackPanel Margin="5">
+        <GroupBox Header="Host">
+            <TextBox Name="HostTextBox"/>
+        </GroupBox>
+        <GroupBox Header="Port">
+            <TextBox Name="PortTextBox"/>
+        </GroupBox>
+        <GroupBox Header="Nickname">
+            <TextBox Name="NickTextBox"/>
+        </GroupBox>
+        <Button Name="ConnectButton" Content="Connect!" Click="ConnectButton_Click" Margin="0,5,0,0" />
+        <Button Name="ServerManageButton" Content="Manage Local Server" Click="ServerManageButton_Click" Margin="0,5,0,0" />
+        <GroupBox Header="Status">
+            <Label Name="StatusLabel" Content="Not connectted."/>
+        </GroupBox>
+    </StackPanel>
+</Window>

@@ -110,7 +110,17 @@ namespace Minesweeper.Server.Logic
             {
                 for (int column = 0; column < Board.Width; column++)
                 {
-                    IncrementFieldValue(row, column);
+                    if (Board.Fields[row * Board.Width + column].IsBomb)
+                    {
+                        IncrementFieldValue(row - 1, column - 1);
+                        IncrementFieldValue(row - 1, column);
+                        IncrementFieldValue(row - 1, column + 1);
+                        IncrementFieldValue(row, column - 1);
+                        IncrementFieldValue(row, column + 1);
+                        IncrementFieldValue(row + 1, column - 1);
+                        IncrementFieldValue(row + 1, column);
+                        IncrementFieldValue(row + 1, column + 1);
+                    }
                 }
             }
         }
@@ -129,7 +139,7 @@ namespace Minesweeper.Server.Logic
         {
             var field = Board.Fields[row * Board.Width + column];
 
-            if (field.State == FieldState.Close || field.State == FieldState.Flag || field.State == FieldState.Mark)
+            if (field.State == FieldState.Close)
             {
                 if (field.IsBomb)
                 {
@@ -151,7 +161,7 @@ namespace Minesweeper.Server.Logic
 
             var field = Board.Fields[row * Board.Width + column];
 
-            if (field.State != FieldState.Close)
+            if (field.State != FieldState.Close && field.State != FieldState.Mark)
             {
                 return;
             }
@@ -159,14 +169,17 @@ namespace Minesweeper.Server.Logic
             field.State = FieldState.Open;
             OpenFields++;
 
-            OpenRecursively(row - 1, column - 1);
-            OpenRecursively(row - 1, column);
-            OpenRecursively(row - 1, column + 1);
-            OpenRecursively(row, column - 1);
-            OpenRecursively(row, column + 1);
-            OpenRecursively(row + 1, column + 1);
-            OpenRecursively(row + 1, column);
-            OpenRecursively(row + 1, column + 1);
+            if (field.Value == 0)
+            {
+                OpenRecursively(row - 1, column - 1);
+                OpenRecursively(row - 1, column);
+                OpenRecursively(row - 1, column + 1);
+                OpenRecursively(row, column - 1);
+                OpenRecursively(row, column + 1);
+                OpenRecursively(row + 1, column + 1);
+                OpenRecursively(row + 1, column);
+                OpenRecursively(row + 1, column + 1);
+            }
         }
 
         private void CheckGamestate(int row, int column)
@@ -178,12 +191,28 @@ namespace Minesweeper.Server.Logic
                 GameState = GameState.Lost;
                 StopTime = DateTimeOffset.Now;
                 RoundTime = StopTime - StartTime;
+                ShowBobmb();
             }
             else if (OpenFields + Board.Bombs == Board.Fields.Count)
             {
                 GameState = GameState.Won;
                 StopTime = DateTimeOffset.Now;
                 RoundTime = StopTime - StartTime;
+            }
+        }
+
+        private void ShowBobmb()
+        {
+            foreach (var field in Board.Fields)
+            {
+                if (field.IsBomb && (field.State == FieldState.Close || field.State == FieldState.Mark))
+                {
+                    field.State = FieldState.Bomb;
+                }
+                else if (field.State == FieldState.Flag && !field.IsBomb)
+                {
+                    field.State = FieldState.Miss;
+                }
             }
         }
 

@@ -17,7 +17,7 @@ namespace Minesweeper.Portable
 {
     class Program
     {
-        static async Task Main(string[] args)
+        static async Task Main()
         {
             await Host.CreateDefaultBuilder()
                 .ConfigureAppConfiguration((hostContext, config) =>

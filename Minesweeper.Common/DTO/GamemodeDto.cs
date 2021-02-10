@@ -3,7 +3,7 @@
 namespace Minesweeper.Common.DTO
 {
     [MessagePackObject]
-   public class GamemodeDto
+    public class GamemodeDto
     {
         [Key(0)]
         public string Name { get; set; }
