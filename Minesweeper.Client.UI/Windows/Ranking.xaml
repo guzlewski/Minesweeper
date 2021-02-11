@@ -11,7 +11,7 @@
         <ListBox Name="Gamemodes" SelectionChanged="Gamemodes_SelectionChanged">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding Name}"/>
+                    <TextBlock Text="{Binding Gamemode.Name}"/>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
@@ -29,8 +29,8 @@
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
-            <Label Grid.Column="0" Content="Total Games:"/>
-            <Label Grid.Column="1" x:Name="Total" HorizontalContentAlignment="Right"/>
+            <Label Grid.Column="0" Content="Won Games:"/>
+            <Label Grid.Column="1" Name="Total" HorizontalContentAlignment="Right"/>
         </Grid>
     </StackPanel>
 </Window>

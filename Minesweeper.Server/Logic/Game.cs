@@ -198,6 +198,11 @@ namespace Minesweeper.Server.Logic
                 GameState = GameState.Won;
                 StopTime = DateTimeOffset.Now;
                 RoundTime = StopTime - StartTime;
+
+                foreach (var bombField in Board.Fields.Where(field => field.IsBomb))
+                {
+                    bombField.State = FieldState.Flag;
+                }
             }
         }
 

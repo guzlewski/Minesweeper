@@ -47,15 +47,30 @@ namespace Minesweeper.Server.Implementations
                 throw new InvalidOperationException();
             }
 
+            if (request.Gamemode.Bombs < GamemodeDto.MinBombs || request.Gamemode.Bombs > GamemodeDto.MaxBombs)
+            {
+                throw new ArgumentOutOfRangeException(nameof(request.Gamemode.Bombs));
+            }
+
+            if (request.Gamemode.Height < GamemodeDto.MinHeight || request.Gamemode.Height > GamemodeDto.MaxHeight)
+            {
+                throw new ArgumentOutOfRangeException(nameof(request.Gamemode.Height));
+            }
+
+            if (request.Gamemode.Width < GamemodeDto.MinWidth || request.Gamemode.Width > GamemodeDto.MaxWidth)
+            {
+                throw new ArgumentOutOfRangeException(nameof(request.Gamemode.Width));
+            }
+
             var gamemode = _mapper.Map<Gamemode>(request.Gamemode);
-            Game = new SaveableGame(_random, gamemode, _database, _nickname);
+            Game = new SaveableGame(_gamemodes, _random, gamemode, _database, _nickname);
 
             return _mapper.Map<GameDto>(Game);
         }
 
         private object GetRanking(GetRanking _)
         {
-            return _database.GetRanking(_gamemodes, 20);
+            return _database.GetRanking(_gamemodes, 10);
         }
 
         private object Handshake(Handshake request)

@@ -20,6 +20,7 @@ namespace Minesweeper.Service
 
             AddWritePermissions(Path.Combine(Context.Parameters["TargetDir"], "appsettings-service.json"));
             AddWritePermissions(Path.Combine(Context.Parameters["TargetDir"], "Minesweeper.db"));
+            AddWritePermissions(Path.Combine(Context.Parameters["TargetDir"], "Minesweeper-log.db"));
         }
 
         private void AddWritePermissions(string pathToFile)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using LiteDB;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Minesweeper.Common.DTO;
 using Minesweeper.Server.Data.Entities;
@@ -15,14 +16,17 @@ namespace Minesweeper.Server.Data
         private readonly LiteDatabase _liteDatabase;
         private readonly LiteDBSettings _settings;
         private readonly IMapper _mapper;
+        private readonly ILogger<DatabaseService> _logger;
 
-        public DatabaseService(IOptions<LiteDBSettings> options, IMapper mapper)
+        public DatabaseService(IOptions<LiteDBSettings> options, IMapper mapper, ILogger<DatabaseService> logger)
         {
             _settings = options.Value;
             _liteDatabase = new LiteDatabase(_settings.Path);
             _mapper = mapper;
+            _logger = logger;
 
             var gamemodes = _liteDatabase.GetCollection<GamemodeRow>(_settings.GamemodesTable);
+            gamemodes.EnsureIndex(g => g.Name);
             gamemodes.EnsureIndex(g => g.Width);
             gamemodes.EnsureIndex(g => g.Height);
             gamemodes.EnsureIndex(g => g.Bombs);
@@ -56,6 +60,7 @@ namespace Minesweeper.Server.Data
             };
 
             achievements.Insert(achivmentEntity);
+            _logger.LogInformation("Player {0} won gamemode {1} in {2}", player, gamemode.Name, time);
         }
 
         public List<RankingDto> GetRanking(IEnumerable<Gamemode> dtos, int max)
@@ -81,6 +86,7 @@ namespace Minesweeper.Server.Data
 
                 var achievementsList = achievements.Query()
                      .Where(achievement => achievement.GamemodeId == gamemodeId)
+                     .OrderBy(achievement => achievement.Time)
                      .ToList();
 
                 var page = new RankingDto

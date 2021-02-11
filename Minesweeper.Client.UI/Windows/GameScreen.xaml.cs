@@ -139,6 +139,7 @@ namespace Minesweeper.Client.UI.Windows
             };
 
             _timer.Stop();
+            TimeTextBlock.Text = 0.ToString();
 
             var response = await _communication.SendAndRecieveAsync<GameDto>(request);
 

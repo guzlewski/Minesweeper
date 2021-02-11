@@ -28,6 +28,12 @@ namespace Minesweeper.Client.UI.Windows
             LockSliders();
             LevelsList.ItemsSource = gamemodes.List;
             LevelsList.SelectedItem = gamemodes.List.FirstOrDefault();
+
+            BombsSlider.Minimum = GamemodeDto.MinBombs;
+            HeightSlider.Minimum = GamemodeDto.MinHeight;
+            HeightSlider.Maximum = GamemodeDto.MaxHeight;
+            WidthSlider.Minimum = GamemodeDto.MinWidth;
+            WidthSlider.Maximum = GamemodeDto.MaxWidth;
         }
 
         private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)

@@ -633,6 +633,18 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_33487B329D27E0DB3C09314A63FBE28A"
+        "OwnerKey" = "8:_1E6FC021E3C94EDD8025EAF1735AB149"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_33487B329D27E0DB3C09314A63FBE28A"
+        "OwnerKey" = "8:_3D4ED92899575DAEAEF51A9E06B0851D"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_358CD3A6E9CB0E750FA6CD242E120AFA"
         "OwnerKey" = "8:_E9F26B1FDBB06E231349B86BCDC75F28"
         "MsmSig" = "8:_UNDEFINED"
@@ -2723,6 +2735,12 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_8C3D7D5BEF53969EA06E9E7AF96900E5"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_33487B329D27E0DB3C09314A63FBE28A"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -4919,6 +4937,37 @@
                     }
                 }
             "SourcePath" = "8:System.Linq.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_001CA9855CD340FBBA7918DAB8C88180"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_33487B329D27E0DB3C09314A63FBE28A"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:LiteDB, Version=5.0.10.0, Culture=neutral, PublicKeyToken=4ee40123013c9f27, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_33487B329D27E0DB3C09314A63FBE28A"
+                    {
+                    "Name" = "8:LiteDB.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:LiteDB.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_001CA9855CD340FBBA7918DAB8C88180"
@@ -8609,7 +8658,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Minesweeper"
         "ProductCode" = "8:{0FC16B9C-261B-442D-9D78-46097C318202}"
-        "PackageCode" = "8:{58CD4227-BEE9-4D91-90D6-12DAE375F28A}"
+        "PackageCode" = "8:{7DACB4F2-DC72-4776-BE28-45135489750B}"
         "UpgradeCode" = "8:{763970F0-B607-44E6-8D26-393CA66E4F81}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"

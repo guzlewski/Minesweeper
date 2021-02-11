@@ -43,7 +43,10 @@ namespace Minesweeper.Client.UI.Windows
             }
 
             Gamemodes.ItemsSource = rankings;
-            Gamemodes.SelectedItem = Gamemodes.Items[0];
+
+            var enumerator = Gamemodes.ItemsSource.GetEnumerator();
+            enumerator.MoveNext();
+            Gamemodes.SelectedItem = enumerator.Current;
         }
 
         private void Gamemodes_SelectionChanged(object sender, SelectionChangedEventArgs e)
