@@ -20,7 +20,7 @@ namespace Minesweeper.Service
 
             AddWritePermissions(Path.Combine(Context.Parameters["TargetDir"], "appsettings-service.json"));
             AddWritePermissions(Path.Combine(Context.Parameters["TargetDir"], "Minesweeper.db"));
-            AddWritePermissions(Path.Combine(Context.Parameters["TargetDir"], "Minesweeper-log.db"));
+            AddAllPermissions(Path.Combine(Context.Parameters["TargetDir"], "Minesweeper-log.db"));
         }
 
         private void AddWritePermissions(string pathToFile)
@@ -28,6 +28,18 @@ namespace Minesweeper.Service
             var fSecurity = File.GetAccessControl(pathToFile);
             var account = new SecurityIdentifier(WellKnownSidType.WorldSid, null);
             var rights = FileSystemRights.Read | FileSystemRights.Write;
+            var controlType = AccessControlType.Allow;
+            var policy = new FileSystemAccessRule(account, rights, controlType);
+
+            fSecurity.AddAccessRule(policy);
+            File.SetAccessControl(pathToFile, fSecurity);
+        }
+
+        private void AddAllPermissions(string pathToFile)
+        {
+            var fSecurity = File.GetAccessControl(pathToFile);
+            var account = new SecurityIdentifier(WellKnownSidType.WorldSid, null);
+            var rights = FileSystemRights.FullControl;
             var controlType = AccessControlType.Allow;
             var policy = new FileSystemAccessRule(account, rights, controlType);
 

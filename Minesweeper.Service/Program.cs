@@ -46,6 +46,7 @@ namespace Minesweeper.Service
                 })
                 .ConfigureLogging((hostContext, logging) =>
                 {
+                    logging.AddConfiguration(hostContext.Configuration.GetSection("Logging:EventLog"));
                     logging.AddEventLog();
                 })
                 .Build();
