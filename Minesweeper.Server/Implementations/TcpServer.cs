@@ -78,7 +78,7 @@ namespace Minesweeper.Server
                     await stream.SendAsync(response, _cancellationTokenSource.Token).ConfigureAwait(false);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogDebug(ex.ToString());
             }

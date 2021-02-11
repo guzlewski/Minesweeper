@@ -37,7 +37,7 @@ namespace Minesweeper.Portable
                     services.AddSingleton(AutoMapperConfig.Initialize());
                     services.AddSingleton<Random, ThreadSafeRandom>();
                     services.AddSingleton<DatabaseService>();
-                    services.AddHostedService<ServerService>();                    
+                    services.AddHostedService<ServerService>();
                 })
                 .ConfigureLogging((hostContext, logging) =>
                 {
