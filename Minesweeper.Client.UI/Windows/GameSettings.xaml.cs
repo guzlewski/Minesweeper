@@ -109,7 +109,7 @@ namespace Minesweeper.Client.UI.Windows
 
             using (var scope = _provider.CreateScope())
             {
-                var gameScreen = new GameScreen(this, _communication, response, _provider.GetRequiredService<IAssets>());
+                var gameScreen = new GameScreen(this, _communication, ((GamemodeDto)LevelsList.SelectedItem).Name, response, _provider.GetRequiredService<IAssets>());
                 gameScreen.ShowDialog();
 
                 if (gameScreen.ConnectionLost)

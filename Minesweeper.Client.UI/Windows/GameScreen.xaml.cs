@@ -22,9 +22,10 @@ namespace Minesweeper.Client.UI.Windows
         private readonly IAssets _assets;
 
         public GameDto Game { get; private set; }
+        public string GamemodeName { get; set; }
         public bool ConnectionLost { get; private set; }
 
-        public GameScreen(Window window, ICommunicationHelper communication, GameDto game, IAssets assets)
+        public GameScreen(Window window, ICommunicationHelper communication, string gamemodeName, GameDto game, IAssets assets)
         {
             Owner = window;
             InitializeComponent();
@@ -32,6 +33,7 @@ namespace Minesweeper.Client.UI.Windows
             _timer = new Timer(TimeTextBlock);
             _assets = assets;
             Game = game;
+            GamemodeName = gamemodeName;
 
             TimeTextBlock.FontFamily = _assets.Font;
             BombsTextBlock.FontFamily = _assets.Font;
@@ -134,7 +136,8 @@ namespace Minesweeper.Client.UI.Windows
                 {
                     Width = Game.Board.Width,
                     Height = Game.Board.Height,
-                    Bombs = Game.Board.Bombs
+                    Bombs = Game.Board.Bombs,
+                    Name = GamemodeName
                 }
             };
 
